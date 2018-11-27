@@ -8,6 +8,17 @@
 
 #import "BaseViewController.h"
 
+@protocol  MainControllerDelegate<NSObject>
+
+@optional
+-(void)SetTitleArry:(NSMutableArray *)titleArry;
+-(void)SetImageArry:(NSMutableArray *)imageArry;
+
+
+@end
+
 @interface MainController : BaseViewController
+
+@property(nonatomic,weak)id<MainControllerDelegate>delegate;
 
 @end

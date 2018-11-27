@@ -42,6 +42,7 @@
 		4D39D82E2191B2B9005A6C4A /* MainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D39D82B2191B2B9005A6C4A /* MainController.m */; };
 		4D39D83F2191B50C005A6C4A /* OrderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D39D83E2191B50C005A6C4A /* OrderController.m */; };
 		4D39D8422191B53B005A6C4A /* MyselfController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D39D8412191B53B005A6C4A /* MyselfController.m */; };
+		4DC0E09921ADBE3D0076854D /* HeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC0E09821ADBE3D0076854D /* HeadView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -116,6 +117,8 @@
 		4D39D83E2191B50C005A6C4A /* OrderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderController.m; sourceTree = "<group>"; };
 		4D39D8402191B53B005A6C4A /* MyselfController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyselfController.h; sourceTree = "<group>"; };
 		4D39D8412191B53B005A6C4A /* MyselfController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyselfController.m; sourceTree = "<group>"; };
+		4DC0E09721ADBE3D0076854D /* HeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeadView.h; sourceTree = "<group>"; };
+		4DC0E09821ADBE3D0076854D /* HeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeadView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -400,6 +403,8 @@
 			children = (
 				4D1EC3C52191E52F0089BC98 /* View_One.h */,
 				4D1EC3C62191E52F0089BC98 /* View_One.m */,
+				4DC0E09721ADBE3D0076854D /* HeadView.h */,
+				4DC0E09821ADBE3D0076854D /* HeadView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -559,6 +564,7 @@
 				4D39D814218F5771005A6C4A /* ForgetController.m in Sources */,
 				4D39D7C2218F3887005A6C4A /* UIView+IQKeyboardToolbar.m in Sources */,
 				4D0FDF392184156000077A4E /* LoginViewController.m in Sources */,
+				4DC0E09921ADBE3D0076854D /* HeadView.m in Sources */,
 				4D39D7A0218F2EB9005A6C4A /* STextFieldView.m in Sources */,
 				4D39D7BC218F3887005A6C4A /* IQSegmentedNextPrevious.m in Sources */,
 				4D39D7BB218F3887005A6C4A /* IQKeyboardManager.m in Sources */,

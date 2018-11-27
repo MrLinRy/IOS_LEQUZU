@@ -8,6 +8,15 @@
 
 #import "BaseView.h"
 
+@protocol  ViewOneDelegate<NSObject>
+
+-(void)ClickBtn:(UIButton *)sender;
+
+@end
+
+
 @interface View_One : BaseView
+
+@property(nonatomic,weak)id<ViewOneDelegate>delegate;
 
 @end

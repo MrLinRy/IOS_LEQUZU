@@ -98,7 +98,7 @@
         //img = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 
         //修改tabarItem的点击状态下文字、图片的颜色
-        //[_tabBarController.tabBar setTintColor:LRYCOLOR(0xFF7C08)];
+        [_tabBarController.tabBar setTintColor:LRYCOLOR(0xFF7C08)];
     }
     return _tabBarController;
 }

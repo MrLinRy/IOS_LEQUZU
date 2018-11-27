@@ -9,17 +9,31 @@
 #import "MainController.h"
 #import "SizeHeader.h"
 #import "SGFocusImageFrame.h"
+#import "View_One.h"
+#import "HeadView.h"
 
-
-@interface MainController ()<UITableViewDelegate,UITableViewDataSource,SGFocusImageFrameDelegate>
+#define VIEWONEHEIGHT LRYScreenpH(294)
+#define HEADVIEWHEIGHT LRYScreenpH(33)
+@interface MainController ()<UITableViewDelegate,UITableViewDataSource,SGFocusImageFrameDelegate,ViewOneDelegate,HeadViewDelagate>
 @property (nonatomic,strong)UITableView *tableview;
 @property(nonatomic,strong)NSMutableArray *bannerList;
 @property(nonatomic,strong)NSMutableArray *imageList;
 @property(nonatomic,strong)UIView *banner;
 
+@property(nonatomic,strong)View_One *viewOne;
+@property (nonatomic,strong)NSMutableArray *titleArry;
+@property (nonatomic,strong)NSMutableArray *imageArry;
+
+
+@property (nonatomic,strong)NSMutableArray *headArry;
+
 @end
 
 @implementation MainController
+
+
+#pragma mark -- tableview
+
 -(UITableView *)tableview
 {
     if (!_tableview)
@@ -36,6 +50,9 @@
     }
     return _tableview;
 }
+
+#pragma mark -- banner
+
 -(NSMutableArray *)imageList
 {
     if (!_imageList )
@@ -86,7 +103,52 @@
 }
 
 
+#pragma mark -- 加载titleArry和imageArry按钮数据
+-(NSMutableArray *)titleArry{
+    if (!_titleArry) {
+        _titleArry = [NSMutableArray arrayWithObjects:@"智能手机",@"便携本",@"游戏本",@"一体台式",@"智能酷玩",@"摄影摄像",@"家居家电",@"视听影音",@"健康美容",@"游戏娱乐", nil];
+    }
+    return _titleArry;
+}
 
+-(NSMutableArray *)imageArry{
+    if (!_imageArry) {
+        _imageArry = [NSMutableArray arrayWithObjects:@"icon_phone",@"icon_laptop",@"icon_electronic",@"icon_pc",@"icon_intelligent",@"icon_photograph",@"icon_furniture",@"icon-listen",@"icon-beauty",@"icon_game", nil];
+    }
+    return _imageArry;
+}
+
+#pragma mark -- 初始化View_One
+
+-(View_One *)viewOne{
+    if (!_viewOne) {
+        _viewOne = [[View_One alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, VIEWONEHEIGHT)];
+        self.delegate = _viewOne;
+        _viewOne.delegate = self;
+        //加载完数据之后
+        if (_delegate && [_delegate respondsToSelector:@selector(setTitleArry:)]){
+            [_delegate SetTitleArry:self.titleArry];
+        }
+        if (_delegate && [_delegate respondsToSelector:@selector(SetImageArry:)]){
+            [_delegate SetImageArry:self.imageArry];
+        }
+        [_viewOne setNeedsLayout];
+
+    }
+    return _viewOne;
+}
+
+#pragma mark -- 加载titleArry和imageArry按钮数据
+-(NSMutableArray *)headArry{
+    if (!_headArry) {
+        _headArry = [NSMutableArray arrayWithObjects:@"热门租聘专区",@"二手专区",@"99新专区",@"女神优品",@"游戏神级", nil];
+    }
+    return _headArry;
+}
+
+
+
+#pragma mark -- viewDidLoad
 -(void)viewDidLoad{
     [super viewDidLoad];
     [topBarView setTopTitle:@"租凭"];
@@ -96,6 +158,7 @@
     [self tableview];
     
 }
+
 #pragma mark foucusImageFrame的代理方法
 - (void)foucusImageFrame:(SGFocusImageFrame *)imageFrame
            didSelectItem:(SGFocusImageItem *)item
@@ -112,6 +175,15 @@
     {
         NSLog(@"3");
     }
+}
+
+#pragma mark  ViewOneDelegate method
+-(void)ClickBtn:(UIButton *)sender{
+    NSLog(@"%@",sender.titleLabel.text);
+}
+#pragma mark  HeadViewDelegate method
+-(void)MoreClick:(UIButton *)sender Title:(NSString *)titleStr{
+    NSLog(@"%@",titleStr);
 }
 
 #pragma mark  UITableViewDataSource数据源方法，设置区数，行数
@@ -152,9 +224,9 @@
     if (section == 0) {
         return LRYScreenpH(350);
     }else if (section == 1){
-        return LRYScreenpH(293);
+        return VIEWONEHEIGHT;
     }else{
-        return LRYScreenpH(33);
+        return HEADVIEWHEIGHT;
     }
     
 }
@@ -163,7 +235,7 @@
     if (section == 0) {
         return LRYScreenpH(50);
     }else if (section == 1){
-        return LRYScreenpH(80);
+        return LRYScreenpH(79);
     }else{
         return LRYScreenpH(54);
     }
@@ -174,19 +246,27 @@
     if (section == 0) {
         return self.banner;
     }else if (section == 1){
-        UIView *view = [[UIView alloc]init];
-        return view;
-    }else{
-        UIView *view = [[UIView alloc]init];
-        return view;
+        return self.viewOne;
     }
-    
+    else{
+        HeadView *headView =[[HeadView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, HEADVIEWHEIGHT)];
+        headView.delegate=self;
+        [headView SetHeadTitle:self.headArry[section-2]];
+        return headView;
+    }
 }
 // 设置第section分组的footer
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    UIView *FootV = [[UIView alloc]init];
-    [FootV setBackgroundColor:[UIColor redColor]];
-    return FootV;
+    if (section == 0) {
+        UIView *FootV = [[UIView alloc]init];
+        return FootV;
+    }
+    else{
+        UIView *FootV = [[UIView alloc]init];
+        [FootV setBackgroundColor:[UIColor whiteColor]];
+        return FootV;
+    }
+    
 }
 
 #pragma mark  设置cell的视图内容
