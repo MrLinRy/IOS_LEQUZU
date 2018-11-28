@@ -334,7 +334,6 @@
     }else if (indexPath.section == 3){
         //可重用表示符
         static NSString *CellID = @"CellID_3";
-        
         tabelViewCell *CellView =[tableView dequeueReusableCellWithIdentifier:CellID];
         //如果没有找到可重用cell
         if (CellView == nil)
