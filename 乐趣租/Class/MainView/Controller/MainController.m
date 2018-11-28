@@ -11,21 +11,24 @@
 #import "SGFocusImageFrame.h"
 #import "View_One.h"
 #import "HeadView.h"
+#import "scrollView.h"
+#import "tabelViewCell.h"
 
 #define VIEWONEHEIGHT LRYScreenpH(294)
 #define HEADVIEWHEIGHT LRYScreenpH(33)
-@interface MainController ()<UITableViewDelegate,UITableViewDataSource,SGFocusImageFrameDelegate,ViewOneDelegate,HeadViewDelagate>
+@interface MainController ()<UITableViewDelegate,UITableViewDataSource,SGFocusImageFrameDelegate,ViewOneDelegate,HeadViewDelagate,scrollViewDelegate>
 @property (nonatomic,strong)UITableView *tableview;
+
+@property(nonatomic,strong)UIView *banner;
 @property(nonatomic,strong)NSMutableArray *bannerList;
 @property(nonatomic,strong)NSMutableArray *imageList;
-@property(nonatomic,strong)UIView *banner;
+
 
 @property(nonatomic,strong)View_One *viewOne;
 @property (nonatomic,strong)NSMutableArray *titleArry;
 @property (nonatomic,strong)NSMutableArray *imageArry;
-
-
 @property (nonatomic,strong)NSMutableArray *headArry;
+
 
 @end
 
@@ -38,7 +41,7 @@
 {
     if (!_tableview)
     {
-        _tableview = [[UITableView alloc]initWithFrame:CGRectMake(0,TopAndSystemHeight,ScreenWidth ,ScreenHeight-TopAndSystemHeight) style:UITableViewStylePlain];
+        _tableview = [[UITableView alloc]initWithFrame:CGRectMake(0,TopAndSystemHeight,ScreenWidth ,ScreenHeight-TopAndSystemHeight-LRYScreenpH(98)) style:UITableViewStylePlain];
         
         _tableview.separatorStyle = UITableViewCellSeparatorStyleNone;
         
@@ -50,6 +53,8 @@
     }
     return _tableview;
 }
+
+
 
 #pragma mark -- banner
 
@@ -103,7 +108,10 @@
 }
 
 
-#pragma mark -- 加载titleArry和imageArry按钮数据
+
+
+#pragma mark -- View_One
+//加载titleArry和imageArry按钮数据
 -(NSMutableArray *)titleArry{
     if (!_titleArry) {
         _titleArry = [NSMutableArray arrayWithObjects:@"智能手机",@"便携本",@"游戏本",@"一体台式",@"智能酷玩",@"摄影摄像",@"家居家电",@"视听影音",@"健康美容",@"游戏娱乐", nil];
@@ -118,7 +126,7 @@
     return _imageArry;
 }
 
-#pragma mark -- 初始化View_One
+//初始化View_One
 
 -(View_One *)viewOne{
     if (!_viewOne) {
@@ -138,6 +146,8 @@
     return _viewOne;
 }
 
+
+
 #pragma mark -- 加载titleArry和imageArry按钮数据
 -(NSMutableArray *)headArry{
     if (!_headArry) {
@@ -146,6 +156,8 @@
     return _headArry;
 }
 
+
+#pragma mark --
 
 
 #pragma mark -- viewDidLoad
@@ -215,7 +227,7 @@
     }else if(indexPath.section == 1){
         return 0;
     }else{
-        return LRYScreenpH(323);
+        return LRYScreenpH(342);
     }
     
 }
@@ -273,44 +285,248 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //可重用表示符
-    static NSString *CellID = @"CellID";
-    UITableViewCell *CellView =[tableView dequeueReusableCellWithIdentifier:CellID];
-    //    alloc dealloc
-    //如果没有找到可重用cell
-    if (CellView == nil)
-    {
-        CellView =[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellID];
-        //设置row被点击之后无颜色、样式反应
-        CellView.selectionStyle=UITableViewCellSelectionStyleNone;
+    NSMutableArray *titleArray = [NSMutableArray arrayWithObjects:@"iPad 全新国行",@"iPhone 7 (95成新)",@"iPhone 7 (99成新)",@"luna mini2",@"索尼国行游戏机", nil];
+    NSMutableArray *priceArray = [NSMutableArray arrayWithObjects:@"¥399/月起",@"¥6.3/天起",@"¥6.3/天起",@"¥99/月",@"¥299/月", nil];
+    NSMutableArray *imageArray = [NSMutableArray arrayWithObjects:@"图层7",@"图层7",@"图层7",@"图层7",@"图层7", nil];
+    
+    
+    if (indexPath.section == 2) {
+        //可重用表示符
+        static NSString *CellID = @"CellID_2";
+        tabelViewCell *CellView =[tableView dequeueReusableCellWithIdentifier:CellID];
+        //如果没有找到可重用cell
+        if (CellView == nil)
+        {
+            CellView =[[tabelViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellID];
+            //设置row被点击之后无颜色、样式反应
+            CellView.selectionStyle=UITableViewCellSelectionStyleNone;
+            
+            
+            //写UI
+            CellView.itemViewOne.delegate =self;
+            CellView.itemViewThree.delegate =self;
+            CellView.itemViewTwo.delegate =self;
+            CellView.sv.delegate=self;
+            
+            
+            [CellView.itemViewOne setImage:[UIImage imageNamed:imageArray[indexPath.section-2]]];
+            [CellView.itemViewOne setTitle:titleArray[indexPath.section-2]];
+            [CellView.itemViewOne setPrice:priceArray[indexPath.section-2]];
+            [CellView.itemViewOne setNeedsLayout];
+            
+            [CellView.itemViewTwo setImage:[UIImage imageNamed:imageArray[indexPath.section-2]]];
+            [CellView.itemViewTwo setTitle:titleArray[indexPath.section-2]];
+            [CellView.itemViewTwo setPrice:priceArray[indexPath.section-2]];
+            [CellView.itemViewTwo setNeedsLayout];
+            
+            [CellView.itemViewThree setImage:[UIImage imageNamed:imageArray[indexPath.section-2]]];
+            [CellView.itemViewThree setTitle:titleArray[indexPath.section-2]];
+            [CellView.itemViewThree setPrice:priceArray[indexPath.section-2]];
+            [CellView.itemViewThree setNeedsLayout];
+            
+            
+        }
+        //取出数据模型
+        
+        //写数据
+        return CellView;
+
+    }else if (indexPath.section == 3){
+        //可重用表示符
+        static NSString *CellID = @"CellID_3";
+        
+        tabelViewCell *CellView =[tableView dequeueReusableCellWithIdentifier:CellID];
+        //如果没有找到可重用cell
+        if (CellView == nil)
+        {
+            CellView =[[tabelViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellID];
+            //设置row被点击之后无颜色、样式反应
+            CellView.selectionStyle=UITableViewCellSelectionStyleNone;
+            
+            
+            //写UI
+            CellView.itemViewOne.delegate =self;
+            CellView.itemViewThree.delegate =self;
+            CellView.itemViewTwo.delegate =self;
+            CellView.sv.delegate=self;
+            
+            
+            [CellView.itemViewOne setImage:[UIImage imageNamed:imageArray[indexPath.section-2]]];
+            [CellView.itemViewOne setTitle:titleArray[indexPath.section-2]];
+            [CellView.itemViewOne setPrice:priceArray[indexPath.section-2]];
+            [CellView.itemViewOne setNeedsLayout];
+            
+            [CellView.itemViewTwo setImage:[UIImage imageNamed:imageArray[indexPath.section-2]]];
+            [CellView.itemViewTwo setTitle:titleArray[indexPath.section-2]];
+            [CellView.itemViewTwo setPrice:priceArray[indexPath.section-2]];
+            [CellView.itemViewTwo setNeedsLayout];
+            
+            [CellView.itemViewThree setImage:[UIImage imageNamed:imageArray[indexPath.section-2]]];
+            [CellView.itemViewThree setTitle:titleArray[indexPath.section-2]];
+            [CellView.itemViewThree setPrice:priceArray[indexPath.section-2]];
+            [CellView.itemViewThree setNeedsLayout];
+
+            
+            
+        }
+        //取出数据模型
+    
+        //写数据
+        
+        return CellView;
+
+    }else if (indexPath.section == 4){
+        //可重用表示符
+        static NSString *CellID = @"CellID_4";
+        
+        tabelViewCell *CellView =[tableView dequeueReusableCellWithIdentifier:CellID];
+        //如果没有找到可重用cell
+        if (CellView == nil)
+        {
+            CellView =[[tabelViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellID];
+            //设置row被点击之后无颜色、样式反应
+            CellView.selectionStyle=UITableViewCellSelectionStyleNone;
+            
+            
+            //写UI
+            CellView.itemViewOne.delegate =self;
+            CellView.itemViewThree.delegate =self;
+            CellView.itemViewTwo.delegate =self;
+            CellView.sv.delegate=self;
+            
+            
+            [CellView.itemViewOne setImage:[UIImage imageNamed:imageArray[indexPath.section-2]]];
+            [CellView.itemViewOne setTitle:titleArray[indexPath.section-2]];
+            [CellView.itemViewOne setPrice:priceArray[indexPath.section-2]];
+            [CellView.itemViewOne setNeedsLayout];
+            
+            [CellView.itemViewTwo setImage:[UIImage imageNamed:imageArray[indexPath.section-2]]];
+            [CellView.itemViewTwo setTitle:titleArray[indexPath.section-2]];
+            [CellView.itemViewTwo setPrice:priceArray[indexPath.section-2]];
+            [CellView.itemViewTwo setNeedsLayout];
+            
+            [CellView.itemViewThree setImage:[UIImage imageNamed:imageArray[indexPath.section-2]]];
+            [CellView.itemViewThree setTitle:titleArray[indexPath.section-2]];
+            [CellView.itemViewThree setPrice:priceArray[indexPath.section-2]];
+            [CellView.itemViewThree setNeedsLayout];
+
+            
+            
+        }
+        //取出数据模型
+        
+        //写数据
+                return CellView;
+        
+    }else if (indexPath.section == 5){
+        //可重用表示符
+        static NSString *CellID = @"CellID_5";
+        
+        tabelViewCell *CellView =[tableView dequeueReusableCellWithIdentifier:CellID];
+        //如果没有找到可重用cell
+        if (CellView == nil)
+        {
+            CellView =[[tabelViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellID];
+            //设置row被点击之后无颜色、样式反应
+            CellView.selectionStyle=UITableViewCellSelectionStyleNone;
+            
+            
+            //写UI
+            CellView.itemViewOne.delegate =self;
+            CellView.itemViewThree.delegate =self;
+            CellView.itemViewTwo.delegate =self;
+            CellView.sv.delegate=self;
+            
+            
+            [CellView.itemViewOne setImage:[UIImage imageNamed:imageArray[indexPath.section-2]]];
+            [CellView.itemViewOne setTitle:titleArray[indexPath.section-2]];
+            [CellView.itemViewOne setPrice:priceArray[indexPath.section-2]];
+            [CellView.itemViewOne setNeedsLayout];
+            
+            [CellView.itemViewTwo setImage:[UIImage imageNamed:imageArray[indexPath.section-2]]];
+            [CellView.itemViewTwo setTitle:titleArray[indexPath.section-2]];
+            [CellView.itemViewTwo setPrice:priceArray[indexPath.section-2]];
+            [CellView.itemViewTwo setNeedsLayout];
+            
+            [CellView.itemViewThree setImage:[UIImage imageNamed:imageArray[indexPath.section-2]]];
+            [CellView.itemViewThree setTitle:titleArray[indexPath.section-2]];
+            [CellView.itemViewThree setPrice:priceArray[indexPath.section-2]];
+            [CellView.itemViewThree setNeedsLayout];
+
+            
+            
+        }
+        //取出数据模型
+        
+        //写数据
         
         
-        //写UI
         
+        return CellView;
         
+    }else{
+        //可重用表示符
+        static NSString *CellID = @"CellID_6";
+        tabelViewCell *CellView =[tableView dequeueReusableCellWithIdentifier:CellID];
+        //如果没有找到可重用cell
+        if (CellView == nil)
+        {
+            CellView =[[tabelViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellID];
+            //设置row被点击之后无颜色、样式反应
+            CellView.selectionStyle=UITableViewCellSelectionStyleNone;
+            
+            
+            //写UI
+            CellView.itemViewOne.delegate =self;
+            CellView.itemViewThree.delegate =self;
+            CellView.itemViewTwo.delegate =self;
+            CellView.sv.delegate=self;
+            
+            
+            [CellView.itemViewOne setImage:[UIImage imageNamed:imageArray[indexPath.section-2]]];
+            [CellView.itemViewOne setTitle:titleArray[indexPath.section-2]];
+            [CellView.itemViewOne setPrice:priceArray[indexPath.section-2]];
+            [CellView.itemViewOne setNeedsLayout];
+            
+            [CellView.itemViewTwo setImage:[UIImage imageNamed:imageArray[indexPath.section-2]]];
+            [CellView.itemViewTwo setTitle:titleArray[indexPath.section-2]];
+            [CellView.itemViewTwo setPrice:priceArray[indexPath.section-2]];
+            [CellView.itemViewTwo setNeedsLayout];
+            
+            [CellView.itemViewThree setImage:[UIImage imageNamed:imageArray[indexPath.section-2]]];
+            [CellView.itemViewThree setTitle:titleArray[indexPath.section-2]];
+            [CellView.itemViewThree setPrice:priceArray[indexPath.section-2]];
+            [CellView.itemViewThree setNeedsLayout];
+
+            
+            
+        }
+        //取出数据模型
+        
+        //写数据
+        return CellView;
         
     }
-    //取出数据模型
-    
-    //写数据
     
     
-    return CellView;
 }
 
 #pragma mark  操作cell时调用的方法
 
-// cell选中时调用
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"%ld",indexPath.row);
+//// cell选中时调用
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//    NSLog(@"%ld",indexPath.row);
+//}
+//// cell取消选中时调用
+//- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(3_0){
+//    
+//    NSLog(@"deselect ");
+//    
+//}
+#pragma mark scrollViewDelegate method
+-(void)ClickBtn:(UIButton *)sender titleStr:(NSString *)titlestr{
+    NSLog(@"%@",titlestr);
 }
-// cell取消选中时调用
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(3_0){
-    
-    NSLog(@"deselect ");
-    
-}
-
 
 
 @end

@@ -39,11 +39,9 @@
         
         
         
-        
     }
     return self;
 }
-
 
 -(UIImageView *)imageOne{
     if (!_imageOne) {
